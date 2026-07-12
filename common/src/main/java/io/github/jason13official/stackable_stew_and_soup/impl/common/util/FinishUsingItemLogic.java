@@ -16,7 +16,7 @@ public class FinishUsingItemLogic {
 
     // if we would return a single bowl from a heldItemStack that is Suspicious Stew with more than one stew (vanilla behavior)
     ItemStack returned = cir.getReturnValue();
-    if ((returned.is(Items.BOWL) && returned.getCount() == 1) && (heldItemStack.getMaxStackSize() > 1 && heldItemStack.getCount() > 1)) {
+    if ((returned.is(Items.BOWL) && returned.getCount() == 1) && (heldItemStack.getMaxStackSize() > 1 && heldItemStack.getCount() > 0)) {
 
       // try to give an empty bowl to the player
       boolean givenToPlayer = false;

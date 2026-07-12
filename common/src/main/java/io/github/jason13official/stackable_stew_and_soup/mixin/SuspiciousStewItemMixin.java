@@ -20,7 +20,6 @@ public class SuspiciousStewItemMixin {
     heldStack.shrink(1);
     ItemStack returned = cir.getReturnValue();
     if (!level.isClientSide() && !ItemStack.matches(heldStack, returned)) {
-      System.out.println("finish using sus stew would not return shrunken stack, applying custom logic");
       FinishUsingItemLogic.apply(stack, living, cir);
     }
   }
