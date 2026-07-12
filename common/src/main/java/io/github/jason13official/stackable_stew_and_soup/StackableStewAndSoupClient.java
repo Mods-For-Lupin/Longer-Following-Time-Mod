@@ -1,0 +1,7 @@
+package io.github.jason13official.stackable_stew_and_soup;
+
+public class StackableStewAndSoupClient {
+
+  public static void init() {
+  }
+}
