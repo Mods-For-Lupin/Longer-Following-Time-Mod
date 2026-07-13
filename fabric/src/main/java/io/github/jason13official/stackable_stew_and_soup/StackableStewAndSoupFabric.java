@@ -1,5 +1,6 @@
 package io.github.jason13official.stackable_stew_and_soup;
 
+import io.github.jason13official.stackable_stew_and_soup.impl.common.ModConfig;
 import io.github.jason13official.stackable_stew_and_soup.impl.common.registry.ModBlocks;
 import io.github.jason13official.stackable_stew_and_soup.impl.common.registry.ModEntities;
 import io.github.jason13official.stackable_stew_and_soup.impl.common.registry.ModItems;
@@ -7,6 +8,7 @@ import io.github.jason13official.stackable_stew_and_soup.impl.common.registry.Mo
 import io.github.jason13official.stackable_stew_and_soup.impl.common.registry.ModParticles;
 import io.github.jason13official.stackable_stew_and_soup.impl.common.registry.ModTabs;
 import io.github.jason13official.stackable_stew_and_soup.impl.common.registry.ModTiles;
+import io.github.jason13official.stackable_stew_and_soup.platform.Services;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import net.fabricmc.api.ModInitializer;
@@ -52,6 +54,7 @@ public class StackableStewAndSoupFabric implements ModInitializer {
     @Override
     protected void apply(Void unused, ResourceManager resourceManager, ProfilerFiller profilerFiller) {
       // ModConfig.load(Services.PLATFORM.getConfigDirectory());
+      ModConfig.load(Services.PLATFORM.getConfigDirectory());
     }
 
     @Override
