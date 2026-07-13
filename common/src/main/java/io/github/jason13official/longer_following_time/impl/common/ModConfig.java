@@ -13,7 +13,7 @@ public class ModConfig {
 
   private static final String FILENAME = Constants.MOD_ID + ".toml";
 
-  private static float ADDED_SECONDS_VALUE = 8.0f;
+  private static float ADDED_SECONDS_VALUE = 4.0f;
 
   public static ConfigGetterSetter<Float> ADDED_SECONDS =
       new ConfigGetterSetter<>("added_seconds", () -> ADDED_SECONDS_VALUE, i -> ADDED_SECONDS_VALUE = i);

@@ -10,5 +10,6 @@
   "server": [],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "plugin": "io.github.jason13official.longer_following_time.LFTMixinPlugin"
 }
