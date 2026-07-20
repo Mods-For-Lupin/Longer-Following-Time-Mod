@@ -4,3 +4,56 @@ plugins {
     // see https://projects.neoforged.net/neoforged/moddevgradle for new versions
     id 'net.neoforged.moddev' version '2.0.49-beta' apply false
 }
+
+// Force :fabric and :neoforge to configure so remapJar/jar
+// are registered before we reference them
+evaluationDependsOn(':fabric')
+evaluationDependsOn(':neoforge')
+
+tasks.register('mergeJars', Jar) {
+  group = 'distribution'
+  description = 'Merge the final :fabric and :neoforge jars into a single jar in build/merged/ (common deduped and assumes other entries are unique).'
+
+  def fabricJarTask = project(':fabric').tasks.named('remapJar')
+  def neoforgeJarTask = project(':neoforge').tasks.named('jar')
+
+  // Both loaders register the same IPlatformHelper service file at this path
+  // with different implementation lines - concatenate rather than exclude,
+  // so the merged jar carries both providers and Services#loadPlatformHelper
+  // (common) picks the one that resolves at runtime.
+  def servicePath = "META-INF/services/${project.group}.${mod_id}.platform.services.IPlatformHelper"
+  def mergedServiceFile = layout.buildDirectory.file("tmp/mergeJars/${servicePath}")
+
+  dependsOn(fabricJarTask, neoforgeJarTask)
+
+  destinationDirectory.set(layout.buildDirectory.dir('merged'))
+  archiveFileName.set("${mod_id}-merged-${minecraft_version}-${version}.jar")
+
+  duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+  doFirst {
+    def lines = new LinkedHashSet<String>()
+    [fabricJarTask.get(), neoforgeJarTask.get()].each { jarTask ->
+      new java.util.zip.ZipFile(jarTask.archiveFile.get().asFile).withCloseable { zip ->
+        def entry = zip.getEntry(servicePath)
+        if (entry != null) {
+          zip.getInputStream(entry).withCloseable { input ->
+            input.newReader().eachLine { line ->
+              def trimmed = line.trim()
+              if (trimmed && !trimmed.startsWith('#')) {
+                lines << trimmed
+              }
+            }
+          }
+        }
+      }
+    }
+    def outFile = mergedServiceFile.get().asFile
+    outFile.parentFile.mkdirs()
+    outFile.text = lines.join('\n') + '\n'
+  }
+
+  from(zipTree(fabricJarTask.flatMap { it.archiveFile })) { exclude servicePath }
+  from(zipTree(neoforgeJarTask.flatMap { it.archiveFile })) { exclude servicePath }
+  from(mergedServiceFile) { into 'META-INF/services' }
+}
