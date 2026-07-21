@@ -16,10 +16,10 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "io.github.jason13official.stackable_stew_and_soup.StackableStewAndSoupFabric"
+      "io.github.jason13official.longer_following_time.LongerFollowingTimeFabric"
     ],
     "client": [
-      "io.github.jason13official.stackable_stew_and_soup.StackableStewAndSoupClientFabric"
+      "io.github.jason13official.longer_following_time.LongerFollowingTimeClientFabric"
     ]
   },
   "mixins": [
