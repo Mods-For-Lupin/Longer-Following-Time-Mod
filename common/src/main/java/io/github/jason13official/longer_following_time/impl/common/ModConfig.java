@@ -47,7 +47,7 @@ public class ModConfig {
 
       // setters (setting config values/comments for writing the file) to save our runtime config values
 
-      config.setComment(ADDED_SECONDS.key(), " The amount that stew and soup may stack to. Default: 8");
+      config.setComment(ADDED_SECONDS.key(), " The amount of additional time that mobs will follow the player. Default: 4.0");
       config.set(ADDED_SECONDS.key(), ADDED_SECONDS.getter().get());
 
       config.save();

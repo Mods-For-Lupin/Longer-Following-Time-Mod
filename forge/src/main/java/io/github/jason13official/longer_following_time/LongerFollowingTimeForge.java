@@ -24,6 +24,7 @@ import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.registries.RegisterEvent;
 
@@ -31,6 +32,10 @@ import net.minecraftforge.registries.RegisterEvent;
 public class LongerFollowingTimeForge {
 
   public static IEventBus EVENT_BUS;
+
+  public LongerFollowingTimeForge() {
+    this(FMLJavaModLoadingContext.get().getModEventBus());
+  }
 
   public LongerFollowingTimeForge(final IEventBus modEventBus) {
 

@@ -1,5 +1,6 @@
 package io.github.jason13official.longer_following_time.mixin;
 
+import io.github.jason13official.longer_following_time.Constants;
 import io.github.jason13official.longer_following_time.impl.common.ModConfig;
 import java.util.function.Predicate;
 import net.minecraft.world.entity.LivingEntity;
@@ -16,6 +17,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(TemptGoal.class)
 public class TemptGoalMixin {
+
+  static {
+
+    System.out.println("[" + Constants.MOD_NAME + "] TemptGoalMixin.class static init (<clinit>) executing / class is loading.");
+  }
 
   @Shadow @Final private Ingredient items;
 
@@ -37,5 +43,10 @@ public class TemptGoalMixin {
     }
 
     cir.setReturnValue(correctlyHeld || longer_following_time$addedTicks > 0);
+  }
+
+  static {
+
+    System.out.println("[" + Constants.MOD_NAME + "] TemptGoalMixin.class static init (<clinit>) executed / class is loaded.");
   }
 }
