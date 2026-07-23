@@ -214,3 +214,12 @@ tasks.register('mergeJarsCustom', Jar) {
   from(zipTree(fabricRelocated))
   from(zipTree(neoforgeRelocated))
 }
+
+// Root project has no 'build' task of its own - `./gradlew build` currently works by
+// Gradle running 'build' in every subproject that has one. Define it explicitly so we
+// can also hang mergeJarsCustom off it.
+tasks.register('build') {
+  group = 'build'
+  description = 'Aggregate build: builds common/fabric/neoforge and produces the merged jar.'
+  dependsOn(':common:build', ':fabric:build', ':neoforge:build', 'mergeJarsCustom')
+}
