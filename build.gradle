@@ -209,6 +209,22 @@ tasks.register('mergeJarsCustom', Jar) {
     workDir.get().asFile.mkdirs()
     relocateLoaderJar(fabricJarTask.get().archiveFile.get().asFile, fabricRelocated.get().asFile, 'fabric', project.group.toString())
     relocateLoaderJar(neoforgeJarTask.get().archiveFile.get().asFile, neoforgeRelocated.get().asFile, 'neoforge', project.group.toString())
+
+    // The Jar task always (re)writes its own META-INF/MANIFEST.MF after copying files
+    // in via from(zipTree(...)), which silently clobbers whatever manifest entries
+    // came from the source jars - including Forge's "MixinConfigs" attribute (legacy
+    // Forge discovers mixin configs from the manifest, not mods.toml). Merge those
+    // attributes into this task's own manifest so they actually make it into the jar.
+    [fabricRelocated, neoforgeRelocated].each { jarProvider ->
+      new java.util.jar.JarFile(jarProvider.get().asFile).withCloseable { jarFile ->
+        jarFile.manifest?.mainAttributes?.each { key, value ->
+          def name = key.toString()
+          if (name != 'Manifest-Version') {
+            manifest.attributes([(name): value.toString()])
+          }
+        }
+      }
+    }
   }
 
   from(zipTree(fabricRelocated))
