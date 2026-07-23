@@ -3,6 +3,11 @@ plugins {
     id 'net.neoforged.moddev'
 }
 
+dependencies {
+
+  implementation "curse.maven:monolib-968432:7974611"
+}
+
 neoForge {
     version = neoforge_version
     // Automatically enable neoforge AccessTransformers if the file exists
